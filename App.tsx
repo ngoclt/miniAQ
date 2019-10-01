@@ -1,24 +1,24 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+
+import { createAppContainer } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
 
 import { Provider } from 'react-redux';
-import store from './src/store';
 
-import { CountriesList } from './src/components';
+import store from './src/store';
+import { CountryListScreen, CityListScreen } from './src/screens';
+
+const MainNavigator = createStackNavigator({
+  Country: { screen: CountryListScreen },
+  City: { screen: CityListScreen },
+});
+
+const AppContainer = createAppContainer(MainNavigator);
 
 export default function App() {
   return (
     <Provider store={store}>
-      <CountriesList />
+      <AppContainer />
     </Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

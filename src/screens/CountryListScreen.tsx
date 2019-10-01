@@ -1,24 +1,27 @@
 
+'use strict';
+
 import React, { useEffect } from 'react';
-import { SafeAreaView, FlatList, View, Text, StyleSheet } from 'react-native';
+import { SafeAreaView, FlatList, TouchableHighlight, Text, StyleSheet } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux'
-import { fetchCountries } from '../../actions';
 
-const Item = ({ title }) => {
-  return (
-    <View style={styles.item}>
-      <Text style={styles.title}>{title}</Text>
-    </View>
-  );
-}
+import { useNavigation, useNavigationParam } from 'react-navigation-hooks';
 
-export const CountriesList = () => {
+import { CountryListItem } from '../components';
+import { fetchCountries } from '../actions';
+
+export const CountryListScreen = () => {
 
   const loading = useSelector(state => state.loading);
   const errorMessage = useSelector(state => state.errorMessage);
   const countries = useSelector(state => state.countries);
 
   const dispatch = useDispatch();
+
+  const { navigate } = useNavigation();
+  const goToCityList = (country: any) => {
+    navigate('City');
+  }
 
   useEffect(() => {
     dispatch(fetchCountries());
@@ -45,7 +48,14 @@ export const CountriesList = () => {
       <FlatList
         data={countries}
         keyExtractor={item => item.code}
-        renderItem={({ item }) => <Item title={item.name !== undefined ? item.name : item.code} />} />
+        renderItem={({ item }) => {
+          return (
+            <TouchableHighlight onPress={() => goToCityList(item)}>
+              <CountryListItem title={item.name !== undefined ? item.name : item.code} />
+            </TouchableHighlight>
+          )
+        }
+        } />
     </SafeAreaView>
   );
 }
@@ -65,13 +75,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#333333',
     marginBottom: 5,
-  },
-  item: {
-    padding: 10,
-    fontSize: 18,
-    height: 44,
-  },
-  title: {
-    fontSize: 14,
-  },
+  }
 })
