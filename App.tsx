@@ -9,7 +9,7 @@ import { CountriesList } from './src/components';
 export default function App() {
   return (
     <Provider store={store}>
-        <CountriesList />
+      <CountriesList />
     </Provider>
   );
 }
