@@ -3,7 +3,7 @@
 
 import React, { useEffect } from 'react';
 import { SafeAreaView, FlatList, TouchableHighlight, Text, StyleSheet } from 'react-native';
-import { useSelector, useDispatch } from 'react-redux'
+import { shallowEqual, useSelector, useDispatch } from 'react-redux'
 
 import { useNavigation, useNavigationParam } from 'react-navigation-hooks';
 
@@ -12,15 +12,17 @@ import { fetchCountries } from '../actions';
 
 export const CountryListScreen = () => {
 
-  const loading = useSelector(state => state.loading);
-  const errorMessage = useSelector(state => state.errorMessage);
-  const countries = useSelector(state => state.countries);
+  const { loading, countries, errorMessage } = useSelector(state => ({
+    loading: state.country.loading,
+    countries: state.country.countries,
+    errorMessage: state.country.errorMessage,
+  }), shallowEqual);
 
   const dispatch = useDispatch();
 
   const { navigate } = useNavigation();
   const goToCityList = (country: any) => {
-    navigate('City');
+    navigate('City', { country });
   }
 
   useEffect(() => {
@@ -58,6 +60,10 @@ export const CountryListScreen = () => {
         } />
     </SafeAreaView>
   );
+}
+
+CountryListScreen.navigationOptions = {
+  title: 'Select a Country'
 }
 
 
