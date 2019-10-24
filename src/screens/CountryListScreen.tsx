@@ -9,6 +9,7 @@ import { useNavigation, useNavigationParam } from 'react-navigation-hooks';
 
 import { CountryListItem } from '../components';
 import { fetchCountries } from '../actions';
+import { COLORS } from '../themes';
 
 export const CountryListScreen = () => {
 
@@ -48,12 +49,13 @@ export const CountryListScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
-        data={countries}
+        style={styles.list}
+        data={countries.filter(c => c.name != undefined)}
         keyExtractor={item => item.code}
         renderItem={({ item }) => {
           return (
-            <TouchableHighlight onPress={() => goToCityList(item)}>
-              <CountryListItem title={item.name !== undefined ? item.name : item.code} />
+            <TouchableHighlight underlayColor={COLORS.lightGray} onPress={() => goToCityList(item)}>
+              <CountryListItem code={item.code} title={item.name} />
             </TouchableHighlight>
           )
         }
@@ -63,14 +65,21 @@ export const CountryListScreen = () => {
 }
 
 CountryListScreen.navigationOptions = {
-  title: 'Select a Country'
+  title: 'Select a Country',
+  headerStyle: {},
+  headerTitleStyle: {
+    fontWeight: "bold",
+    color: COLORS.title,
+    textTransform: 'uppercase',
+  },
 }
 
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5FCFF',
+  },
+  list: {
   },
   welcome: {
     fontSize: 20,

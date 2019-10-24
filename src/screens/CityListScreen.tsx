@@ -8,6 +8,7 @@ import { useNavigation, useNavigationParam, } from 'react-navigation-hooks';
 
 import { CityListItem } from '../components';
 import { fetchCities } from '../actions';
+import { COLORS } from '../themes';
 
 export const CityListScreen = () => {
 
@@ -75,7 +76,7 @@ CityListScreen.navigationOptions = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5FCFF',
+    backgroundColor: COLORS.background,
   },
   welcome: {
     fontSize: 20,
