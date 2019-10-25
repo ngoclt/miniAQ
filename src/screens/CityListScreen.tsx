@@ -52,10 +52,10 @@ export const CityListScreen = () => {
     <SafeAreaView style={styles.container}>
       <FlatList
         data={cities}
-        keyExtractor={(item, index) => item.index}
+        keyExtractor={(item, index) => "city" + index}
         renderItem={({ item }) => {
           return (
-            <TouchableHighlight onPress={() => goToCityList(item)}>
+            <TouchableHighlight underlayColor={COLORS.lightGray} onPress={() => goToCityList(item)}>
               <CityListItem title={item.name !== undefined ? item.name : item.code} />
             </TouchableHighlight>
           )
@@ -69,14 +69,19 @@ CityListScreen.navigationOptions = ({ navigation }) => {
   const country = navigation.getParam('country');
   const name = country.name;
   return {
-    title: 'Select a City in ' + name,
+    title: name,
+    headerStyle: {},
+    headerTitleStyle: {
+      fontWeight: "bold",
+      color: COLORS.title,
+      textTransform: 'uppercase',
+    },
   }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background,
   },
   welcome: {
     fontSize: 20,
